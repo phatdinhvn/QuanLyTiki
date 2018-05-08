@@ -63,7 +63,8 @@ namespace Home
 
         private void butSearch_Click(object sender, EventArgs e)
         {
-            getStringHTML(@"https://tiki.vn/search?q=" + txtSearch.Text);
+            textBox1.Text = "";
+            loadListView(getStringHTML(@"https://tiki.vn/search?q=" + txtSearch.Text + "&ref=categorySearch"));
         }
 
         private string getStringHTML(string search) {
@@ -80,14 +81,15 @@ namespace Home
         {
             if (e.KeyCode == Keys.Enter)
             {
-                //textBox1.Text = getStringHTML(@"https://tiki.vn/search?q=" + txtSearch.Text); //////////////////////////
+                textBox1.Text = "";
+                loadListView(getStringHTML(@"https://tiki.vn/search?q=" + txtSearch.Text+ "&ref=categorySearch"));
             }
         }
 
         private void loadListView(string HTML) {
 
-            WebRequest request;
-            string s = @"class=""product - image img - responsive"" src=""(.+?)"" alt";
+            //WebRequest request;
+            string s = @"data-title=""\s*(.*?)\s*"" data";
             MatchCollection m1 = Regex.Matches(HTML, s, RegexOptions.Singleline);
 
             //MatchCollection m2 = Regex.Matches(HTML, @"<span class=""final-price"">\s*(.+?)\s* ₫</span>", RegexOptions.Singleline);
@@ -105,7 +107,7 @@ namespace Home
                 //    item.ImageIndex = 0;
                 //    listView.Items.Add(item);
                 //}
-                textBox1.Text = m1[i].Groups[1].Value + "\n";
+                textBox1.Text = textBox1.Text +"\r\n"+ (i+1) +". " + m1[i].Groups[1].Value + "\r\n";
                 //int gia = int.Parse(m2[i].Groups[1].Value.Replace(".", ""));
             }
         }
