@@ -208,10 +208,11 @@
             this.listView.Location = new System.Drawing.Point(157, 115);
             this.listView.MultiSelect = false;
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(640, 323);
+            this.listView.Size = new System.Drawing.Size(233, 323);
             this.listView.TabIndex = 2;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.List;
+            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
             // 
             // imageListSmall
             // 
@@ -226,13 +227,12 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(363, 272);
             this.textBox1.TabIndex = 3;
-            this.textBox1.Visible = false;
             // 
             // imageListLarge
             // 
-            this.imageListLarge.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListLarge.ImageStream")));
+            this.imageListLarge.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imageListLarge.ImageSize = new System.Drawing.Size(64, 64);
             this.imageListLarge.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListLarge.Images.SetKeyName(0, "logo tiki.png");
             // 
             // Form1
             // 

@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.IO;
-using System.Web;
 
 namespace Home
 {
@@ -37,7 +36,7 @@ namespace Home
         private void but1_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
-
+            textBox1.Text = getStringHTML(@"https://tiki.vn/dien-thoai-may-tinh-bang/c1789");
             panelMark.Top = but1.Top;
             panelMark.Height = but1.Height;
             loadListView(getStringHTML(@"https://tiki.vn/dien-thoai-may-tinh-bang/c1789"));
@@ -70,10 +69,23 @@ namespace Home
             loadListView(getStringHTML(@"https://tiki.vn/nha-sach-tiki/c8322"));
         }
 
+        private void markDefault()
+        {
+            panelMark.Location = new System.Drawing.Point(145, 74);
+        }
+
         private void butSearch_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
-            loadListView(getStringHTML(@"https://tiki.vn/search?q=" + txtSearch.Text + "&ref=categorySearch"));
+            imageListLarge.Images.Clear();
+            string s = @"https://tiki.vn/search?q=" + txtSearch.Text.Replace(" ","+");
+            loadLinkProduct(getStringHTML(s));
+            loadLinkImage(getStringHTML(s));
+            loadListView(getStringHTML(s));
+            
+            
+            markDefault();
+            
         }
 
         private string getStringHTML(string url) {
@@ -102,7 +114,7 @@ namespace Home
             try
             {
                 int posStart = html.IndexOf(@"<div class=""product-box-list""");
-                int posEnd = html.LastIndexOf(@"<div class=""list-pager"">");
+                int posEnd = html.LastIndexOf(@"<div class=""box-recentlyviewed-product""");
                 return html.Substring(posStart, posEnd - posStart);
             }
 
@@ -116,17 +128,11 @@ namespace Home
         {
             if (e.KeyCode == Keys.Enter)
             {
-                textBox1.Text = "";
-                loadListView(getStringHTML(@"https://tiki.vn/search?q=" + txtSearch.Text+ "&ref=categorySearch"));
+                butSearch.PerformClick();
             }
         }
 
         private void loadListView(string HTML) {
-
-            //WebRequest request; /html/body/div[6]/div/div[2]/div[4]
-
-            //HtmlDocument doc = new HtmlDocument();
-
             string s = @"data-title=""\s*(.*?)\s*""";
             MatchCollection m1 = null;
             m1 = Regex.Matches(HTML, s, RegexOptions.Singleline);
@@ -150,7 +156,7 @@ namespace Home
                 ListViewItem item = new ListViewItem();
                 string price = m2[i].Groups[1].Value;
                 item.Text = m1[i].Groups[1].Value +"\r\n"+ price;
-                item.ImageIndex = 0;
+                item.ImageIndex = i;
                 listView.Items.Add(item);
                 //listView.Items.Add(i+1, m1[i].Groups[1].Value, m2[i].Groups[1].Value,0);
                 //textBox1.Text = textBox1.Text +"\r\n"+ (i+1) +". " + m1[i].Groups[1].Value + "\r\n";
@@ -168,8 +174,79 @@ namespace Home
             listView.SmallImageList = imageListSmall;
             listView.LargeImageList = imageListLarge;
             //listView.TileSize = new Size(listView.Width/4, 200);
-            
-            
+        }
+
+        private List<string> srcTmp;
+        public string[] srcImg;
+        private void loadLinkImage(string HTML) {
+            string s = @"src=""\s*(.+?)\s*""";
+            MatchCollection m = null;
+            m = Regex.Matches(HTML, s, RegexOptions.Singleline);
+            //srcImg = new string[m.Count];
+            srcTmp = new List<string>();
+            for (int i = 0; i < m.Count; i++)
+            {
+                if (m[i].Groups[1].Value.IndexOf("banner") < 0)
+                    srcTmp.Add(m[i].Groups[1].Value);
+            }
+
+            this.srcImg = srcTmp.ToArray();
+            loadImageToList();
+            //foreach(string url in srcImg)
+            //{
+            //    textBox1.Text += url + "\r\n";
+            //}
+        }
+        
+        public string[] srcLink;
+        private void loadLinkProduct(string HTML)
+        {
+            string s = @"href=""\s*(.+?)\s*"" title";
+            MatchCollection m = null;
+            m = Regex.Matches(HTML, s, RegexOptions.Singleline);
+            //srcImg = new string[m.Count];
+            srcTmp = new List<string>();
+            for (int i = 0; i < m.Count; i++)
+            {
+                if (m[i].Groups[1].Value.IndexOf("banner") < 0)
+                    srcTmp.Add(m[i].Groups[1].Value);
+            }
+
+            this.srcLink = srcTmp.ToArray();
+            //loadImageToList();
+            foreach (string url in srcLink)
+            {
+                textBox1.Text += url + "\r\n";
+            }
+        }
+
+        private void loadImageToList()
+        {
+            using (WebClient webClient = new WebClient())
+            {
+                foreach (var url in this.srcImg)
+                {
+                    byte[] bitmapData;
+                    bitmapData = webClient.DownloadData(url);
+
+                    // Bitmap data => bitmap => resized bitmap.            
+                    using (MemoryStream memoryStream = new MemoryStream(bitmapData))
+                    using (Bitmap bitmap = new Bitmap(memoryStream))
+                    using (Bitmap resizedBitmap = new Bitmap(bitmap, 50, 50))
+                    {            
+                        imageListLarge.Images.Add(resizedBitmap);
+                    }
+                }
+            }
+        }
+        private string url;
+        private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ProductView pv = new ProductView();
+            int index = listView.SelectedItems[0].Index;
+            url = srcLink[index];
+            pv.Url = url;
+            pv.Show();
         }
     }
 }
