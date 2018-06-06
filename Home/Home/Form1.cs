@@ -35,11 +35,14 @@ namespace Home
 
         private void but1_Click(object sender, EventArgs e)
         {
-            textBox1.Text = "";
-            textBox1.Text = getStringHTML(@"https://tiki.vn/dien-thoai-may-tinh-bang/c1789");
+            //textBox1.Text = "";
+            //textBox1.Text = getStringHTML(@"https://tiki.vn/dien-thoai-may-tinh-bang/c1789");
             panelMark.Top = but1.Top;
             panelMark.Height = but1.Height;
-            loadListView(getStringHTML(@"https://tiki.vn/dien-thoai-may-tinh-bang/c1789"));
+            string s = getStringHTML(@"https://tiki.vn/dien-thoai-may-tinh-bang/c1789");
+            loadLinkProduct(s);
+            loadLinkImage(s);
+            loadListView(s);
         }
 
         private void but2_Click(object sender, EventArgs e)
@@ -47,7 +50,10 @@ namespace Home
             textBox1.Text = "";
             panelMark.Top = but2.Top;
             panelMark.Height = but2.Height;
-            loadListView(getStringHTML(@"https://tiki.vn/laptop-may-vi-tinh/c1846"));
+            string s = getStringHTML(@"https://tiki.vn/laptop-may-vi-tinh/c1846");
+            loadLinkProduct(s);
+            loadLinkImage(s);
+            loadListView(s);
         }
 
         private void but3_Click(object sender, EventArgs e)
@@ -56,8 +62,10 @@ namespace Home
 
             panelMark.Top = but3.Top;
             panelMark.Height = but3.Height;
-            loadListView(getStringHTML(@"https://tiki.vn/may-anh/c1801"));
-
+            string s = getStringHTML(@"https://tiki.vn/may-anh/c1801");
+            loadLinkProduct(s);
+            loadLinkImage(s);
+            loadListView(s);
 
         }
 
@@ -66,7 +74,10 @@ namespace Home
             textBox1.Text = "";
             panelMark.Top = but4.Top;
             panelMark.Height = but4.Height;
-            loadListView(getStringHTML(@"https://tiki.vn/nha-sach-tiki/c8322"));
+            string s = getStringHTML(@"https://tiki.vn/nha-sach-tiki/c8322");
+            loadLinkProduct(s);
+            loadLinkImage(s);
+            loadListView(s);
         }
 
         private void markDefault()
@@ -78,10 +89,10 @@ namespace Home
         {
             textBox1.Text = "";
             imageListLarge.Images.Clear();
-            string s = @"https://tiki.vn/search?q=" + txtSearch.Text.Replace(" ","+");
-            loadLinkProduct(getStringHTML(s));
-            loadLinkImage(getStringHTML(s));
-            loadListView(getStringHTML(s));
+            string s = getStringHTML(@"https://tiki.vn/search?q=" + txtSearch.Text.Replace(" ","+"));
+            loadLinkProduct(s);
+            loadLinkImage(s);
+            loadListView(s);
             
             
             markDefault();
@@ -142,25 +153,13 @@ namespace Home
             //string[] tenSP = new string[m1.Count];
             for (int i = 0; i < m1.Count; i++)
             {
-                //request = WebRequest.Create(m1[i].Groups[1].Value);
-                //using (var res = request.GetResponse())
-                //using (var str = res.GetResponseStream())
-                //{
-                //    imageList1.Images.Add(Bitmap.FromStream(str));
-                //    ListViewItem item = new ListViewItem();
-                //    item.Text = "test";
-                //    item.ImageIndex = 0;
-                //    listView.Items.Add(item);
-                //}
-
+                
                 ListViewItem item = new ListViewItem();
                 string price = m2[i].Groups[1].Value;
                 item.Text = m1[i].Groups[1].Value +"\r\n"+ price;
                 item.ImageIndex = i;
                 listView.Items.Add(item);
-                //listView.Items.Add(i+1, m1[i].Groups[1].Value, m2[i].Groups[1].Value,0);
-                //textBox1.Text = textBox1.Text +"\r\n"+ (i+1) +". " + m1[i].Groups[1].Value + "\r\n";
-                //int gia = int.Parse(m2[i].Groups[1].Value.Replace(".", ""));
+                
             }
 
         }
@@ -168,9 +167,7 @@ namespace Home
         private void Form1_Load(object sender, EventArgs e)
         {
             listView.View = View.LargeIcon;
-            //listView.Columns.Add("Icon");
-            //listView.Columns.Add("Names");
-            //listView.Columns.Add("Price");
+            
             listView.SmallImageList = imageListSmall;
             listView.LargeImageList = imageListLarge;
             //listView.TileSize = new Size(listView.Width/4, 200);
@@ -222,6 +219,7 @@ namespace Home
 
         private void loadImageToList()
         {
+            imageListLarge.Images.Clear();
             using (WebClient webClient = new WebClient())
             {
                 foreach (var url in this.srcImg)
@@ -247,6 +245,27 @@ namespace Home
             url = srcLink[index];
             pv.Url = url;
             pv.Show();
+        }
+
+        private void loadPageNumber(string HTML)
+        {
+            string s = @"href=""\s*(.+?)\s*"" title";
+            MatchCollection m = null;
+            m = Regex.Matches(HTML, s, RegexOptions.Singleline);
+            //srcImg = new string[m.Count];
+            srcTmp = new List<string>();
+            for (int i = 0; i < m.Count; i++)
+            {
+                if (m[i].Groups[1].Value.IndexOf("banner") < 0)
+                    srcTmp.Add(m[i].Groups[1].Value);
+            }
+
+            this.srcLink = srcTmp.ToArray();
+            //loadImageToList();
+            foreach (string url in srcLink)
+            {
+                textBox1.Text += url + "\r\n";
+            }
         }
     }
 }

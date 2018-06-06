@@ -208,7 +208,7 @@
             this.listView.Location = new System.Drawing.Point(157, 115);
             this.listView.MultiSelect = false;
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(233, 323);
+            this.listView.Size = new System.Drawing.Size(631, 323);
             this.listView.TabIndex = 2;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.List;
@@ -227,6 +227,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(363, 272);
             this.textBox1.TabIndex = 3;
+            this.textBox1.Visible = false;
             // 
             // imageListLarge
             // 
