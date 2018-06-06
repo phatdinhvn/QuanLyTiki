@@ -13,10 +13,10 @@ using System.IO;
 
 namespace Home
 {
-    public partial class Form1 : Form
+    public partial class Home : Form
     {
         
-        public Form1()
+        public Home()
         {
             InitializeComponent();
         }
@@ -43,6 +43,7 @@ namespace Home
             loadLinkProduct(s);
             loadLinkImage(s);
             loadListView(s);
+            loadIDProduct(s);
         }
 
         private void but2_Click(object sender, EventArgs e)
@@ -92,9 +93,11 @@ namespace Home
             string s = getStringHTML(@"https://tiki.vn/search?q=" + txtSearch.Text.Replace(" ","+"));
             loadLinkProduct(s);
             loadLinkImage(s);
+            loadIDProduct(s);
             loadListView(s);
             
-            
+
+
             markDefault();
             
         }
@@ -117,11 +120,11 @@ namespace Home
                 }
             }
 
-            return getProductList(HTML);
+            return getSourceProductList(HTML);
             
         }
 
-        private string getProductList(string html) {
+        private string getSourceProductList(string html) {
             try
             {
                 int posStart = html.IndexOf(@"<div class=""product-box-list""");
@@ -143,12 +146,16 @@ namespace Home
             }
         }
 
+        string[] productName;
+        string[] productPrice;
         private void loadListView(string HTML) {
             string s = @"data-title=""\s*(.*?)\s*""";
             MatchCollection m1 = null;
             m1 = Regex.Matches(HTML, s, RegexOptions.Singleline);
 
             MatchCollection m2 = Regex.Matches(HTML, @"<span class=""final-price"">\s*(.+?)\s* ₫</span>", RegexOptions.Singleline);
+            List<string> tmpName = new List<string>();
+            List<string> tmpPrice = new List<string>();
 
             //string[] tenSP = new string[m1.Count];
             for (int i = 0; i < m1.Count; i++)
@@ -156,12 +163,29 @@ namespace Home
                 
                 ListViewItem item = new ListViewItem();
                 string price = m2[i].Groups[1].Value;
+                tmpName.Add(m1[i].Groups[1].Value);
+                tmpPrice.Add(price);
                 item.Text = m1[i].Groups[1].Value +"\r\n"+ price;
                 item.ImageIndex = i;
                 listView.Items.Add(item);
-                
             }
+            productName = tmpName.ToArray();
+            productPrice = tmpPrice.ToArray();
 
+        }
+
+        string[] productID;
+        private void loadIDProduct(string HTML)
+        {
+            string s = @"data-seller-product-id=""\s*(.*?)\s*""";
+            MatchCollection m1 = null;
+            m1 = Regex.Matches(HTML, s, RegexOptions.Singleline);
+            srcTmp.Clear();
+            for (int i = 0; i < m1.Count; i++)
+            {
+                srcTmp.Add(m1[i].Groups[1].Value);
+            }
+            productID = srcTmp.ToArray();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -238,12 +262,9 @@ namespace Home
             }
         }
         private string url;
+        ProductView pv;
         private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ProductView pv = new ProductView();
-            int index = listView.SelectedItems[0].Index;
-            url = srcLink[index];
-            pv.Url = url;
             pv.Show();
         }
 
@@ -266,6 +287,64 @@ namespace Home
             {
                 textBox1.Text += url + "\r\n";
             }
+        }
+
+        private void listView_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (listView.FocusedItem.Bounds.Contains(e.Location) == true)
+                {
+                    contextMenuStrip1.Show(Cursor.Position);
+                }
+            }
+            if (e.Button == MouseButtons.Left)
+            {
+                if (listView.FocusedItem.Bounds.Contains(e.Location) == true)
+                {
+                    pv = new ProductView();
+                    int index = listView.SelectedItems[0].Index;
+                    url = srcLink[index];
+                    pv.Url = url;
+                }
+            }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            int index = listView.SelectedItems[0].Index;
+            string s;
+            bool available = false;
+            StreamReader sr = new StreamReader("..//..//FavouritesList.txt");
+            while (null != (s = sr.ReadLine())) {
+                if (s.Split('|')[0] == productID[index])
+                {
+                    MessageBox.Show("Sản phẩm đã có trong danh sách ưa thích");
+                    available = true;
+                    break;
+                }
+            }
+            sr.Close();
+
+            if (!available)
+            {
+                try
+                {
+                    File.AppendAllText("..//..//FavouritesList.txt", productID[index]+"|" + srcLink[index] + Environment.NewLine);
+                    //imageListLarge.Images[index].Save(@"..\\..\\FavouritesImage\"+productID[index]+".jpg");
+                    MessageBox.Show("Đã thêm vào danh sách ưa thích");
+                }
+                catch (Exception ex) {
+                    MessageBox.Show("Lỗi"+ex);
+                }
+                
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FavouritesView fv = new FavouritesView();
+            fv.Show();
         }
     }
 }
