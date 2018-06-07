@@ -21,11 +21,11 @@ namespace Home
             InitializeComponent();
             
             listView.LargeImageList = imageList1;
-            
+            saveTemp();
         }
 
         //load link
-        string[] tmp;
+        //string[] tmp;
         private List<string> srcTmp = new List<string>();
         private string[] srcImg;
 
@@ -52,9 +52,28 @@ namespace Home
 
         }
 
+        string[] productID;
+        string[] productLink;
+        List<string> tmpID=new List<string>();
+        List<string> tmpLink = new List<string>();
+        void saveTemp()
+        {
+            StreamReader sr = new StreamReader("..//..//FavouritesList.txt");
+            string s;
+
+            while ((s = sr.ReadLine()) != null)
+            {
+                tmpID.Add(s.Split('|')[0]);
+                tmpLink.Add(s.Split('|')[1]);
+            }
+            sr.Close();
+            productID = tmpID.ToArray();
+            productLink = tmpLink.ToArray();
+        }
+
         private void loadLinkImage(string HTML)
         {
-            string s = @"alt=""Product"" src=""\s*(.+?)\s*""";
+            string s = @"alt=""Product"" src=""\s*(.*?)\s*""";
             Match m = null;
             m = Regex.Match(HTML,s,RegexOptions.Singleline);
             srcTmp.Add(m.Groups[1].Value);
@@ -69,15 +88,20 @@ namespace Home
                 foreach (var url in this.srcImg)
                 {
                     byte[] bitmapData;
-                    bitmapData = webClient.DownloadData(url);
-
-                    // Bitmap data => bitmap => resized bitmap.            
-                    using (MemoryStream memoryStream = new MemoryStream(bitmapData))
-                    using (Bitmap bitmap = new Bitmap(memoryStream))
-                    using (Bitmap resizedBitmap = new Bitmap(bitmap, 50, 50))
+                    if (url != "")
                     {
-                        imageList1.Images.Add(resizedBitmap);
+                        bitmapData = webClient.DownloadData(url);
                     }
+                    else bitmapData = webClient.DownloadData("..//..//logo tiki.png");
+                        // Bitmap data => bitmap => resized bitmap.            
+                        using (MemoryStream memoryStream = new MemoryStream(bitmapData))
+                        using (Bitmap bitmap = new Bitmap(memoryStream))
+                        using (Bitmap resizedBitmap = new Bitmap(bitmap, 64, 64))
+                        {
+                            imageList1.Images.Add(resizedBitmap);
+                        }
+                    
+                    
                 }
             }
         }
@@ -136,9 +160,32 @@ namespace Home
             pv.Show();
         }
 
+        int indexToDelete;
+
         private void listView_MouseClick(object sender, MouseEventArgs e)
         {
+            indexToDelete = listView.SelectedItems[0].Index;
+            button1.Enabled = true;
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            listView.Items.RemoveAt(indexToDelete);
+            tmpID.RemoveAt(indexToDelete);
+            tmpLink.RemoveAt(indexToDelete);
+            button1.Enabled = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            productID = tmpID.ToArray();
+            productLink = tmpLink.ToArray();
+            File.WriteAllText("..//..//FavouritesList.txt", String.Empty);
+            for (int i = 0; i < productID.Count(); i++)
+            {
+                File.AppendAllText("..//..//FavouritesList.txt", productID[i] + "|" + productLink[i] + Environment.NewLine);
+            }
+            MessageBox.Show("Da luu thanh cong");
         }
     }
 }

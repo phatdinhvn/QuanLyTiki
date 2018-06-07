@@ -45,10 +45,13 @@
             this.but1 = new System.Windows.Forms.Button();
             this.listView = new System.Windows.Forms.ListView();
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.imageListLarge = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.butBack = new System.Windows.Forms.Button();
+            this.butNext = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -81,7 +84,7 @@
             this.button1.BackColor = System.Drawing.Color.LightGray;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(673, 77);
+            this.button1.Location = new System.Drawing.Point(661, 71);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(127, 31);
             this.button1.TabIndex = 4;
@@ -94,7 +97,7 @@
             this.butSearch.BackColor = System.Drawing.Color.Gainsboro;
             this.butSearch.FlatAppearance.BorderSize = 0;
             this.butSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.butSearch.Location = new System.Drawing.Point(567, 78);
+            this.butSearch.Location = new System.Drawing.Point(569, 71);
             this.butSearch.Name = "butSearch";
             this.butSearch.Size = new System.Drawing.Size(87, 31);
             this.butSearch.TabIndex = 3;
@@ -106,7 +109,7 @@
             // 
             this.txtSearch.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(218, 78);
+            this.txtSearch.Location = new System.Drawing.Point(220, 71);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(349, 31);
             this.txtSearch.TabIndex = 2;
@@ -144,13 +147,15 @@
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.BackColor = System.Drawing.SystemColors.Control;
             this.panel3.Controls.Add(this.panelMark);
+            this.panel3.Controls.Add(this.panel1);
             this.panel3.Controls.Add(this.but4);
             this.panel3.Controls.Add(this.but3);
             this.panel3.Controls.Add(this.but2);
+            this.panel3.Controls.Add(this.button3);
+            this.panel3.Controls.Add(this.button2);
             this.panel3.Controls.Add(this.but1);
-            this.panel3.Controls.Add(this.panel1);
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(150, 450);
@@ -159,7 +164,7 @@
             // panelMark
             // 
             this.panelMark.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(184)))), ((int)(((byte)(241)))));
-            this.panelMark.Location = new System.Drawing.Point(145, 74);
+            this.panelMark.Location = new System.Drawing.Point(-4, 74);
             this.panelMark.Name = "panelMark";
             this.panelMark.Size = new System.Drawing.Size(10, 34);
             this.panelMark.TabIndex = 2;
@@ -170,7 +175,7 @@
             this.but4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(184)))), ((int)(((byte)(241)))));
             this.but4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DeepSkyBlue;
             this.but4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.but4.Location = new System.Drawing.Point(0, 210);
+            this.but4.Location = new System.Drawing.Point(0, 211);
             this.but4.Name = "but4";
             this.but4.Size = new System.Drawing.Size(150, 34);
             this.but4.TabIndex = 4;
@@ -222,11 +227,13 @@
             // 
             // listView
             // 
+            this.listView.BackColor = System.Drawing.Color.White;
+            this.listView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listView.FullRowSelect = true;
-            this.listView.Location = new System.Drawing.Point(157, 115);
+            this.listView.Location = new System.Drawing.Point(147, 108);
             this.listView.MultiSelect = false;
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(631, 323);
+            this.listView.Size = new System.Drawing.Size(653, 342);
             this.listView.TabIndex = 2;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.List;
@@ -238,15 +245,6 @@
             this.imageListSmall.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListSmall.ImageStream")));
             this.imageListSmall.TransparentColor = System.Drawing.Color.Transparent;
             this.imageListSmall.Images.SetKeyName(0, "logo tiki.png");
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(410, 142);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(363, 272);
-            this.textBox1.TabIndex = 3;
-            this.textBox1.Visible = false;
             // 
             // imageListLarge
             // 
@@ -268,12 +266,71 @@
             this.toolStripMenuItem1.Text = "Thêm vào mục ưa thích";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
+            // butBack
+            // 
+            this.butBack.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.butBack.FlatAppearance.BorderSize = 0;
+            this.butBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.butBack.Location = new System.Drawing.Point(698, 421);
+            this.butBack.Name = "butBack";
+            this.butBack.Size = new System.Drawing.Size(34, 29);
+            this.butBack.TabIndex = 3;
+            this.butBack.Text = "<";
+            this.butBack.UseVisualStyleBackColor = false;
+            this.butBack.Visible = false;
+            this.butBack.Click += new System.EventHandler(this.butBack_Click);
+            // 
+            // butNext
+            // 
+            this.butNext.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.butNext.FlatAppearance.BorderSize = 0;
+            this.butNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.butNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.butNext.Location = new System.Drawing.Point(738, 421);
+            this.butNext.Name = "butNext";
+            this.butNext.Size = new System.Drawing.Size(33, 29);
+            this.butNext.TabIndex = 4;
+            this.butNext.Text = ">";
+            this.butNext.UseVisualStyleBackColor = false;
+            this.butNext.Visible = false;
+            this.butNext.Click += new System.EventHandler(this.butNext_Click);
+            // 
+            // button2
+            // 
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(184)))), ((int)(((byte)(241)))));
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DeepSkyBlue;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(0, 279);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(150, 34);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Tivi - Thiet bi nghe nhin";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(184)))), ((int)(((byte)(241)))));
+            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DeepSkyBlue;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(0, 245);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(150, 34);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Phu Kien - Thiet Bi So";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.butNext);
+            this.Controls.Add(this.butBack);
             this.Controls.Add(this.listView);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -286,7 +343,6 @@
             this.panel3.ResumeLayout(false);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -306,11 +362,14 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.ImageList imageListSmall;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ImageList imageListLarge;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button butBack;
+        private System.Windows.Forms.Button butNext;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
     }
 }
 
