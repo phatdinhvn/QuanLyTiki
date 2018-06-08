@@ -187,5 +187,34 @@ namespace Home
             }
             MessageBox.Show("Da luu thanh cong");
         }
+        int x = 0, y = 0;
+        bool mouseDown;
+
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
+            {
+                this.SetDesktopLocation(MousePosition.X- x,MousePosition.Y- y);
+            }
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+
+        private void butExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+            x = e.X;
+            y = e.Y;
+        }
+
+
     }
 }

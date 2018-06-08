@@ -410,6 +410,27 @@ namespace Home
             navi(s);
         }
 
+        private void panel2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
+            {
+                
+                this.SetDesktopLocation(MousePosition.X- x,MousePosition.Y- y);
+            }
+        }
+
+        private void panel2_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+        int x=0, y=0; bool mouseDown;
+        private void panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+            x = e.X;
+            y = e.Y;
+        }
+
         void navi(string s)
         {
             if (isBack(s))

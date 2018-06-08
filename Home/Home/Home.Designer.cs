@@ -42,6 +42,8 @@
             this.but4 = new System.Windows.Forms.Button();
             this.but3 = new System.Windows.Forms.Button();
             this.but2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.but1 = new System.Windows.Forms.Button();
             this.listView = new System.Windows.Forms.ListView();
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
@@ -50,8 +52,6 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.butBack = new System.Windows.Forms.Button();
             this.butNext = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -78,6 +78,9 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(800, 108);
             this.panel2.TabIndex = 0;
+            this.panel2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseDown);
+            this.panel2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseMove);
+            this.panel2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel2_MouseUp);
             // 
             // button1
             // 
@@ -211,6 +214,34 @@
             this.but2.UseVisualStyleBackColor = true;
             this.but2.Click += new System.EventHandler(this.but2_Click);
             // 
+            // button3
+            // 
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(184)))), ((int)(((byte)(241)))));
+            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DeepSkyBlue;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(0, 245);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(150, 34);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Phu Kien - Thiet Bi So";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(184)))), ((int)(((byte)(241)))));
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DeepSkyBlue;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(0, 279);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(150, 34);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "Tivi - Thiet bi nghe nhin";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // but1
             // 
             this.but1.FlatAppearance.BorderSize = 0;
@@ -295,34 +326,6 @@
             this.butNext.UseVisualStyleBackColor = false;
             this.butNext.Visible = false;
             this.butNext.Click += new System.EventHandler(this.butNext_Click);
-            // 
-            // button2
-            // 
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(184)))), ((int)(((byte)(241)))));
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DeepSkyBlue;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(0, 279);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(150, 34);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "Tivi - Thiet bi nghe nhin";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button3
-            // 
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(184)))), ((int)(((byte)(241)))));
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DeepSkyBlue;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(0, 245);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(150, 34);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Phu Kien - Thiet Bi So";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Home
             // 
